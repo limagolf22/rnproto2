@@ -1,34 +1,56 @@
-import React from "react";
-import { Component, FunctionComponent } from "react";
 import Svg, { Line, NumberProp, Polygon } from "react-native-svg";
 
-export default class Wind extends Component<{
-  speed: number;
-  heading: number;
-}> {
-  speed: Float32Array;
-  heading: Float32Array;
+import React, { Component } from "react";
+import { View } from "react-native";
+
+export default class Wind extends Component<
+  {
+    speed: number;
+    heading: number;
+  },
+  { speed: number; heading: number }
+> {
+  constructor(props: any) {
+    super(props);
+
+    this.state = { speed: props.speed, heading: props.heading };
+  }
+  render() {
+    return (
+      <View
+        style={{
+          width: 100,
+          transform: [{ rotate: this.props.heading.toString() + "deg" }],
+        }}
+      >
+        <WindFlag speed={this.props.speed} />
+      </View>
+    );
+  }
+}
+
+export class WindFlag extends Component<
+  {
+    speed: number;
+  },
+  { speed: number }
+> {
   compt50: number;
   compt10: number;
   compt5: number;
 
   constructor(props: any) {
     super(props);
-    this.speed = props.speed;
-    this.heading = props.heading;
+
     this.compt50 = 0;
     this.compt10 = 0;
     this.compt5 = 0;
+    this.state = { speed: props.speed };
   }
   render() {
     this.updateCompt();
     return (
-      <Svg
-        rotation={this.props.heading.valueOf()}
-        viewBox="0 0 100 100"
-        width="100%"
-        height="300"
-      >
+      <Svg viewBox="0 0 100 100" width="100" height="100">
         <Line
           x1="50"
           x2="50"

@@ -1,47 +1,61 @@
 import Svg, { Line, NumberProp, Polygon } from "react-native-svg";
 
 import React, { Component } from "react";
-import { View } from "react-native";
+import { View, Animated, Easing } from "react-native";
 
 export default class Wind extends Component<
   {
     speed: number;
     heading: number;
   },
-  { speed: number; heading: number; k: number }
+  { speed: number; heading: number; rotatePosition: Animated.Value }
 > {
   timer1: NodeJS.Timer;
+  animation: Animated.CompositeAnimation;
 
-  timer2: NodeJS.Timer | undefined;
-  timer3: NodeJS.Timer | undefined;
   constructor(props: any) {
     super(props);
+    this.state = {
+      speed: props.speed,
+      heading: props.heading,
+      rotatePosition: new Animated.Value(0),
+    };
+    this.animation = Animated.timing(this.state.rotatePosition, {
+      useNativeDriver: true,
+      toValue: 1,
+      duration: 1000,
+      easing: Easing.elastic(4),
+    });
+
     this.timer1 = setInterval(() => {
-      this.setState({ k: 1 });
+      this.animation.reset();
+      this.animation.start();
     }, 3000);
-    setTimeout(() => {
-      this.timer2 = setInterval(() => this.setState({ k: -1 }), 3000);
-    }, 100);
-    setTimeout(() => {
-      this.timer3 = setInterval(() => this.setState({ k: 0 }), 3000);
-    }, 500);
-    this.state = { speed: props.speed, heading: props.heading, k: 0 };
   }
+
+  convert() {
+    return this.state.rotatePosition.interpolate({
+      inputRange: [0, 1],
+      outputRange: ["-10deg", "0deg"],
+    });
+  }
+
   render() {
-    console.log("render k=" + this.state.k);
+    //console.log("render k=" + this.state.k);
     return (
       <View
         style={{
           width: 100,
           transform: [
             {
-              rotate:
-                (this.props.heading + this.state.k * 5).toString() + "deg",
+              rotate: this.props.heading.toString() + "deg",
             },
           ],
         }}
       >
-        <WindFlag speed={this.props.speed} />
+        <Animated.View style={{ transform: [{ rotate: this.convert() }] }}>
+          <WindFlag speed={this.props.speed} />
+        </Animated.View>
       </View>
     );
   }
@@ -113,4 +127,7 @@ export class WindFlag extends Component<
       (this.props.speed - this.compt50 * 50 - this.compt10 * 10) / 5
     );
   }
+}
+function fonct(x: number): number {
+  return x;
 }

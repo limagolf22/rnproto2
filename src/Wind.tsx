@@ -8,19 +8,37 @@ export default class Wind extends Component<
     speed: number;
     heading: number;
   },
-  { speed: number; heading: number }
+  { speed: number; heading: number; k: number }
 > {
+  timer1: NodeJS.Timer;
+
+  timer2: NodeJS.Timer | undefined;
+  timer3: NodeJS.Timer | undefined;
   constructor(props: any) {
     super(props);
-
-    this.state = { speed: props.speed, heading: props.heading };
+    this.timer1 = setInterval(() => {
+      this.setState({ k: 1 });
+    }, 3000);
+    setTimeout(() => {
+      this.timer2 = setInterval(() => this.setState({ k: -1 }), 3000);
+    }, 100);
+    setTimeout(() => {
+      this.timer3 = setInterval(() => this.setState({ k: 0 }), 3000);
+    }, 500);
+    this.state = { speed: props.speed, heading: props.heading, k: 0 };
   }
   render() {
+    console.log("render k=" + this.state.k);
     return (
       <View
         style={{
           width: 100,
-          transform: [{ rotate: this.props.heading.toString() + "deg" }],
+          transform: [
+            {
+              rotate:
+                (this.props.heading + this.state.k * 5).toString() + "deg",
+            },
+          ],
         }}
       >
         <WindFlag speed={this.props.speed} />

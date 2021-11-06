@@ -18,43 +18,62 @@ export default class DataManager extends Component<
         <View
           style={{
             alignItems: "center",
-            flexDirection: "row",
-            alignContent: "center",
+            backgroundColor: "grey",
+            borderColor: "black",
+            borderStyle: "solid",
+            borderRadius: 4.0,
+            padding: 10,
+            margin: 10,
           }}
         >
-          <Slider
-            minimumValue={0}
-            maximumValue={99}
-            value={20}
-            onValueChange={(value: number) => {
-              this.changewindSpeed(value);
+          <View
+            style={{
+              alignItems: "center",
+              flexDirection: "row",
+              alignContent: "center",
             }}
-            style={{ width: 200, height: 40 }}
-          />
-          <Text> Wind intensity</Text>
+          >
+            <Slider
+              minimumValue={0}
+              maximumValue={99}
+              value={20}
+              onValueChange={(value: number) => {
+                this.changewindSpeed(value);
+              }}
+              style={{ width: 200, height: 40 }}
+            />
+            <Text> Wind intensity</Text>
+          </View>
+          <View
+            style={{
+              alignItems: "center",
+              flexDirection: "row",
+              alignContent: "center",
+            }}
+          >
+            <Slider
+              minimumValue={0}
+              maximumValue={360}
+              value={30}
+              onValueChange={(value: number) => {
+                this.changewindHeading(value);
+              }}
+              style={{ width: 200, height: 40 }}
+            />
+            <Text> Wind direction</Text>
+          </View>
+
+          <View />
         </View>
         <View
           style={{
-            alignItems: "center",
             flexDirection: "row",
-            alignContent: "center",
+            alignContent: "flex-end",
+            flexWrap: "wrap",
           }}
         >
-          <Slider
-            minimumValue={0}
-            maximumValue={360}
-            value={30}
-            onValueChange={(value: number) => {
-              this.changewindHeading(value);
-            }}
-            style={{ width: 200, height: 40 }}
-          />
-          <Text> Wind direction</Text>
+          <Wind speed={this.state.windSpeed} heading={this.state.windHeading} />
         </View>
-
-        <View />
-        <Text></Text>
-        <Wind speed={this.state.windSpeed} heading={this.state.windHeading} />
       </View>
     );
   }

@@ -36,7 +36,7 @@ export default class Wind extends Component<
   convert() {
     return this.state.rotatePosition.interpolate({
       inputRange: [0, 1],
-      outputRange: ["-10deg", "0deg"],
+      outputRange: ["-5deg", "0deg"],
     });
   }
 
@@ -45,17 +45,28 @@ export default class Wind extends Component<
     return (
       <View
         style={{
-          width: 100,
-          transform: [
-            {
-              rotate: this.props.heading.toString() + "deg",
-            },
-          ],
+          backgroundColor: "cyan",
+          borderRadius: 25,
+          padding: 25,
         }}
       >
-        <Animated.View style={{ transform: [{ rotate: this.convert() }] }}>
-          <WindFlag speed={this.props.speed} />
-        </Animated.View>
+        <View
+          style={{
+            transform: [
+              {
+                rotate: this.props.heading.toString() + "deg",
+              },
+            ],
+
+            justifyContent: "center",
+            alignContent: "space-around",
+            flexDirection: "row",
+          }}
+        >
+          <Animated.View style={{ transform: [{ rotate: this.convert() }] }}>
+            <WindFlag speed={this.props.speed} />
+          </Animated.View>
+        </View>
       </View>
     );
   }
@@ -82,7 +93,7 @@ export class WindFlag extends Component<
   render() {
     this.updateCompt();
     return (
-      <Svg viewBox="0 0 100 100" width="100" height="100">
+      <Svg viewBox="0 0 100 100" width="250" height="250">
         <Line
           x1="50"
           x2="50"
@@ -127,7 +138,4 @@ export class WindFlag extends Component<
       (this.props.speed - this.compt50 * 50 - this.compt10 * 10) / 5
     );
   }
-}
-function fonct(x: number): number {
-  return x;
 }

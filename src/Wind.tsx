@@ -10,7 +10,7 @@ export default class Wind extends Component<
   },
   { speed: number; heading: number; rotatePosition: Animated.Value }
 > {
-  timer1: NodeJS.Timer;
+  timer1: NodeJS.Timer | undefined;
   animation: Animated.CompositeAnimation;
 
   constructor(props: any) {
@@ -23,14 +23,19 @@ export default class Wind extends Component<
     this.animation = Animated.timing(this.state.rotatePosition, {
       useNativeDriver: true,
       toValue: 1,
-      duration: 1000,
+      duration: 2000,
       easing: Easing.elastic(4),
     });
-
+  }
+  componentDidMount() {
     this.timer1 = setInterval(() => {
-      this.animation.reset();
-      this.animation.start();
-    }, 3000);
+      console.log("trucmuche");
+      //this.animation.reset();
+      //this.animation.stop();
+      //this.animation.reset();
+      this.state.rotatePosition.setValue(0);
+      this.animation.start(() => this.animation.reset());
+    }, 4000);
   }
 
   convert() {

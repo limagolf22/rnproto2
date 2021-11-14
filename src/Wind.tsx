@@ -1,14 +1,19 @@
 import Svg, { Line, NumberProp, Polygon } from "react-native-svg";
 
 import React, { Component } from "react";
-import { View, Animated, Easing } from "react-native";
+import { View, Animated, Easing, TouchableOpacity } from "react-native";
 
 export default class Wind extends Component<
   {
     speed: number;
     heading: number;
   },
-  { speed: number; heading: number; rotatePosition: Animated.Value }
+  {
+    speed: number;
+    heading: number;
+    rotatePosition: Animated.Value;
+    width: number;
+  }
 > {
   timer1: NodeJS.Timer | undefined;
   animation: Animated.CompositeAnimation;
@@ -19,6 +24,7 @@ export default class Wind extends Component<
       speed: props.speed,
       heading: props.heading,
       rotatePosition: new Animated.Value(0),
+      width: 125,
     };
     this.animation = Animated.timing(this.state.rotatePosition, {
       useNativeDriver: true,
@@ -29,7 +35,6 @@ export default class Wind extends Component<
   }
   componentDidMount() {
     this.timer1 = setInterval(() => {
-      console.log("trucmuche");
       //this.animation.reset();
       //this.animation.stop();
       //this.animation.reset();
@@ -37,7 +42,13 @@ export default class Wind extends Component<
       this.animation.start(() => this.animation.reset());
     }, 4000);
   }
-
+  changeWidth = (_event: any) => {
+    if (this.state.width > 200) {
+      this.setState({ width: 125 });
+    } else {
+      this.setState({ width: 250 });
+    }
+  };
   convert() {
     return this.state.rotatePosition.interpolate({
       inputRange: [0, 1],
@@ -53,25 +64,28 @@ export default class Wind extends Component<
           backgroundColor: "cyan",
           borderRadius: 25,
           padding: 25,
+          maxHeight: this.state.width + 50,
         }}
       >
-        <View
-          style={{
-            transform: [
-              {
-                rotate: this.props.heading.toString() + "deg",
-              },
-            ],
+        <TouchableOpacity onPress={this.changeWidth}>
+          <View
+            style={{
+              transform: [
+                {
+                  rotate: this.props.heading.toString() + "deg",
+                },
+              ],
 
-            justifyContent: "center",
-            alignContent: "space-around",
-            flexDirection: "row",
-          }}
-        >
-          <Animated.View style={{ transform: [{ rotate: this.convert() }] }}>
-            <WindFlag speed={this.props.speed} />
-          </Animated.View>
-        </View>
+              justifyContent: "center",
+              alignContent: "space-around",
+              flexDirection: "row",
+            }}
+          >
+            <Animated.View style={{ transform: [{ rotate: this.convert() }] }}>
+              <WindFlag speed={this.props.speed} width={this.state.width} />
+            </Animated.View>
+          </View>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -80,6 +94,7 @@ export default class Wind extends Component<
 export class WindFlag extends Component<
   {
     speed: number;
+    width: number;
   },
   { speed: number }
 > {
@@ -98,7 +113,11 @@ export class WindFlag extends Component<
   render() {
     this.updateCompt();
     return (
-      <Svg viewBox="0 0 100 100" width="250" height="250">
+      <Svg
+        viewBox="0 0 100 100"
+        width={this.props.width}
+        height={this.props.width}
+      >
         <Line
           x1="50"
           x2="50"

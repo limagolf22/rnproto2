@@ -14,7 +14,7 @@ export default class DataManager extends Component<
 
   render() {
     return (
-      <View>
+      <View style={{ width: "100%" }}>
         <View
           style={{
             alignItems: "center",
@@ -72,6 +72,8 @@ export default class DataManager extends Component<
             flexWrap: "wrap",
           }}
         >
+          <Wind speed={this.state.windSpeed} heading={this.state.windHeading} />
+          <Wind speed={this.state.windSpeed} heading={this.state.windHeading} />
           <Wind speed={this.state.windSpeed} heading={this.state.windHeading} />
         </View>
       </View>

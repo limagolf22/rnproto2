@@ -2,23 +2,19 @@ import Svg, { Line, NumberProp, Polygon } from "react-native-svg";
 
 import React, { Component } from "react";
 import { View, Animated, Easing, TouchableOpacity } from "react-native";
-import WidgetContainer from "./WidgetContainer";
 
-export default class Wind
-  extends Component<
-    {
-      speed: number;
-      heading: number;
-    },
-    {
-      speed: number;
-      heading: number;
-      rotatePosition: Animated.Value;
-      width: number;
-    }
-  >
-  implements WidgetContainer
-{
+export default class Wind extends Component<
+  {
+    speed: number;
+    heading: number;
+  },
+  {
+    speed: number;
+    heading: number;
+    rotatePosition: Animated.Value;
+    width: number;
+  }
+> {
   timer1: NodeJS.Timer | undefined;
   animation: Animated.CompositeAnimation;
 

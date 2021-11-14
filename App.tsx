@@ -1,12 +1,13 @@
 import React, { FunctionComponent } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import DataManager from "./src/DataManager";
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <DataManager />
-
+      <ScrollView>
+        <DataManager />
+      </ScrollView>
       {/*<StatusBar style="auto" /> */}
     </View>
   );
